@@ -17,8 +17,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { logout } from "@/auth/authService";
+import { useNavigate } from "react-router-dom";
 
 export function DashboardNavbar() {
+  const navigate=useNavigate();
   return (
     <div className="flex h-full w-full items-center justify-between px-6">
       {/* Left Side: Sidebar & Search */}
@@ -53,7 +55,7 @@ export function DashboardNavbar() {
             <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/dashboard/profile")}>
                 Profile
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>

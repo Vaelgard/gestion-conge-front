@@ -1,46 +1,36 @@
-import  { useState } from "react";
-import { Button } from "@/components/ui/button"; // Adjust import path as needed
+import  { useEffect, useState } from "react";
+import UserService from "@/services/userService";
+import { LeaveRequest } from "@/models/LeaveRequest";
 
-// Define the leave request interface
-interface LeaveRequest {
-  id: number;
-  employeeName: string;
-  startDate: string;
-  endDate: string;
-  reason: string;
-  status: "Pending" | "Approved" | "Rejected";
-}
-
-// Sample data for pending requests
-const initialPendingRequests: LeaveRequest[] = [
-  {
-    id: 1,
-    employeeName: "Alice Dupont",
-    startDate: "2023-09-01",
-    endDate: "2023-09-05",
-    reason: "Vacances",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    employeeName: "Claire Bernard",
-    startDate: "2023-09-15",
-    endDate: "2023-09-18",
-    reason: "Personnel",
-    status: "Pending",
-  },
-];
 
 export default function LeavesApprovePage() {
-  const [requests, setRequests] = useState(initialPendingRequests);
+  const [requests, setRequests] = useState<LeaveRequest[]>([]);
 
-  const handleApprove = (id: number) => {
-    setRequests((prev) =>
-      prev.map((req) =>
-        req.id === id ? { ...req, status: "Approved" } : req
-      )
-    );
-  };
+  useEffect(() => {
+    const fetchLeaveRequests = async () => {
+      try {
+        const data = await UserService.getLeave();
+        if (data) {
+          setRequests(
+            data.filter((leave: LeaveRequest)=>leave.statut==="Approved").map((leave: LeaveRequest) => ({
+              id: leave.id,
+              name: leave.name,
+              startDate: leave.startDate,
+              endDate: leave.endDate,
+              reason: leave.reason,
+              statut: leave.statut,
+              userId: leave.userId,
+            }))
+          );
+        }
+      } catch (error) {
+        console.error("Failed to fetch leave requests", error);
+      }
+    };
+  
+    fetchLeaveRequests();
+  }, []);
+
 
   return (
     <div className="p-4">
@@ -57,19 +47,13 @@ export default function LeavesApprovePage() {
               className="p-4 border rounded-lg flex justify-between items-center"
             >
               <div>
-                <p className="font-bold">{req.employeeName}</p>
+                <p className="font-bold">{req.name}</p>
                 <p>
-                  {req.startDate} - {req.endDate}
+                  {new Date(req.startDate).toLocaleDateString()} - {new Date(req.endDate).toLocaleDateString()}
                 </p>
                 <p>Raison: {req.reason}</p>
               </div>
-              {req.status === "Pending" ? (
-                <Button onClick={() => handleApprove(req.id)} variant="default">
-                  Accepter
-                </Button>
-              ) : (
                 <span className="text-green-600 font-bold">Approuvé</span>
-              )}
             </div>
           ))}
         </div>

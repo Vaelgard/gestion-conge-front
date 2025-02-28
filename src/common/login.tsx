@@ -31,6 +31,9 @@ const LoginPage: React.FC = () => {
       }
       localStorage.setItem("token", response.token);
       localStorage.setItem("refrechtoken", response.refreshToken);
+      localStorage.setItem("email", email);
+      localStorage.setItem("role", response.role);
+      localStorage.setItem("username", response.name);
       navigate("/dashboard");
     } catch (err: any) {
       setError("Email ou mot de passe incorrect");

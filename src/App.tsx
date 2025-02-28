@@ -7,6 +7,7 @@ import EmployeesPage from './admin/pages/EmployeesPage';
 import LeavesRequestsPage from './admin/pages/leaveRequestPage';
 import LeavesApprovePage from './admin/pages/approveLeavePage';
 import LeavesRejectPage from './admin/pages/rejectLeavePage';
+import Profile from './admin/pages/profile';
 
 
 
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: "leaves/requests", element: <LeavesRequestsPage/>},
       { path: "leaves/approve", element: <LeavesApprovePage/> },
       { path: "leaves/reject", element: <LeavesRejectPage/> },
+      { path: "/dashboard/profile", element: <Profile/> },
     ],
   },
 ]);

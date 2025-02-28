@@ -26,8 +26,8 @@ export default function EmployeesPage() {
               email: user.email,
               phone: user.phone,
               role: user.role,
-            }))
-          );
+            })
+          ).sort((a: User, b: User) => a.id - b.id));
         }
       } catch (error) {
         console.error("Failed to fetch employees", error);

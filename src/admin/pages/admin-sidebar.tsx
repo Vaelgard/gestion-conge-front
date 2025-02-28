@@ -33,12 +33,12 @@ const menuItems = [
     subItems: [
       { title: "Consulter les demandes", url: "/dashboard/leaves/requests" },
       {
-        title: "Accepter une demande",
+        title: "Demandes Accepter",
         url: "/dashboard/leaves/approve",
         icon: <CheckCircle className="size-4" />,
       },
       {
-        title: "Refuser une demande",
+        title: "Demandes Refuser",
         url: "/dashboard/leaves/reject",
         icon: <XCircle className="size-4" />,
       },
