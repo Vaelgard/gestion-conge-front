@@ -86,7 +86,7 @@ export default function DashboardLayout() {
                         dataKey="value"
                         label
                       >
-                        {demandesConge.map((entry, index) => (
+                        {demandesConge.map((_entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
