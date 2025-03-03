@@ -1,5 +1,4 @@
 import { LeaveCreate } from "@/models/LeaveCreate";
-import { LeaveRequest } from "@/models/LeaveRequest";
 import axios from "axios";
 
 interface FormDataType {

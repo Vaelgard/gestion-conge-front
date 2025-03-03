@@ -22,7 +22,6 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import UserService from "@/services/userService"
-import { LeaveRequest } from "@/models/LeaveRequest"
 import { LeaveCreate } from "@/models/LeaveCreate"
 
 const formSchema = z
