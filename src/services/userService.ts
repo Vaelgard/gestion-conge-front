@@ -1,12 +1,6 @@
 import { LeaveRequest } from "@/models/LeaveRequest";
 import axios from "axios";
 
-type UserDataType = {
-  token: string;
-  role: string;
-  message: string;
-};
-
 interface FormDataType {
   id: number;
   name: string;
@@ -16,15 +10,6 @@ interface FormDataType {
   role: string;
 }
 
-type  LeaveDataType = {
-  id: number;
-  reason: string;
-  name:string;
-  statut: string;
-  startDate: Date;
-  endDate: Date;
-  userId: number;
-};
 
 
 class UserService {
