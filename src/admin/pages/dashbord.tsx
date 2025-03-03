@@ -36,11 +36,8 @@ const embauchesTendance = [
 
 // Colors for Pie Chart
 const COLORS = ["#0088FE", "#FF8042"];
-console.log(localStorage.getItem("token"));
-
 export default function DashboardLayout() {
   const location = useLocation();
-  // Show charts only on the dashboard home page (adjust the route as needed)
   const showCharts = location.pathname === "/dashboard"; 
 
   return (

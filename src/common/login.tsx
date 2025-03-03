@@ -34,7 +34,12 @@ const LoginPage: React.FC = () => {
       localStorage.setItem("email", email);
       localStorage.setItem("role", response.role);
       localStorage.setItem("username", response.name);
-      navigate("/dashboard");
+      if (response.role === "ADMIN") {
+        navigate("/dashboard");
+      } else{
+        navigate("/employees/dashboard/leaves/status");
+      }
+      
     } catch (err: any) {
       setError("Email ou mot de passe incorrect");
     } finally {
@@ -64,11 +69,11 @@ const LoginPage: React.FC = () => {
               {error && <p className="text-red-500 text-center">{error}</p>}
               <div className="space-y-2">
                 <Label htmlFor="email">E-mail</Label>
-                <Input id="email" name="email" type="email" placeholder="nom@entreprise.com" required />
+                <Input id="email" name="email" type="email" placeholder="Adresse e-mail" required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Mot de passe</Label>
-                <Input id="password" name="password" type="password" required />
+                <Input id="password" name="password" type="password" placeholder="Mot de passe" required />
               </div>
               <div className="flex items-center space-x-2 mb-5">
                 <Checkbox id="remember" name="remember" />

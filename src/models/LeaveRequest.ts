@@ -1,7 +1,7 @@
 export interface LeaveRequest {
-    id: number;
-    reason: string;
+    id:number,
     name:string;
+    reason: string;
     statut: string;
     startDate: Date;
     endDate: Date;

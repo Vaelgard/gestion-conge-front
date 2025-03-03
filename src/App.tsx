@@ -7,7 +7,11 @@ import EmployeesPage from './admin/pages/EmployeesPage';
 import LeavesRequestsPage from './admin/pages/leaveRequestPage';
 import LeavesApprovePage from './admin/pages/approveLeavePage';
 import LeavesRejectPage from './admin/pages/rejectLeavePage';
-import Profile from './admin/pages/profile';
+import Profile from './common/profile';
+import LeaveRequestPage from './employees/pages/leaveRequestPage';
+import LeavesStatusPage from './employees/pages/leaveStatusPage';
+import { useEffect } from 'react';
+import EmployeeDashboard from './employees/pages/employeeDashbord';
 
 
 
@@ -32,9 +36,22 @@ const router = createBrowserRouter([
       { path: "/dashboard/profile", element: <Profile/> },
     ],
   },
+  {
+    path:"/employees/dashboard",
+    element: <EmployeeDashboard />,
+    children: [
+      {path: "profile", element: <Profile/>},
+      {path:"leaves/request", element: <LeaveRequestPage/>},
+      {path:"leaves/status", element: <LeavesStatusPage/>},
+    ],
+  }
 ]);
 function App() {
+  useEffect(() => {
+    document.title = "Gestion des congés";
+  }, []);
   return <RouterProvider router={router} />;
+
 }
 
 export default App

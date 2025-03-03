@@ -1,3 +1,4 @@
+import { LeaveRequest } from "@/models/LeaveRequest";
 import axios from "axios";
 
 type UserDataType = {
@@ -33,9 +34,6 @@ class UserService {
   static async login(email: string, password: string) {
     try {
       const response = await axios.post(`${UserService.BASE_URL}/auth/login`, { email, password });
-      console.log("i'm here");
-      console.log(response.data);
-
       return response.data;
     } catch (err) {
       console.log(err);
@@ -104,7 +102,6 @@ class UserService {
   static async getUser() {
     try {
       const email = localStorage.getItem('email');
-      console.log(localStorage.getItem('email'));
       const response = await axios.get(
         `${UserService.BASE_URL}/admin/get-users/${email}`,
         {
@@ -128,7 +125,28 @@ class UserService {
       throw err;
     }
   }
-  
+  static async createLeave(leaveData: LeaveRequest) {
+    try {
+      const response = await axios.post(`${UserService.BASE_URL}/api/leave/create`, leaveData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+  static async getLeaveByUser(id: number) {
+    try {
+      const response = await axios.get(`${UserService.BASE_URL}/api/leave/getAllByUserId/${id}`,{
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
   
   
 
