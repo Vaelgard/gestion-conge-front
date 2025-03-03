@@ -1,3 +1,4 @@
+import { LeaveCreate } from "@/models/LeaveCreate";
 import { LeaveRequest } from "@/models/LeaveRequest";
 import axios from "axios";
 
@@ -110,7 +111,7 @@ class UserService {
       throw err;
     }
   }
-  static async createLeave(leaveData: LeaveRequest) {
+  static async createLeave(leaveData: LeaveCreate) {
     try {
       const response = await axios.post(`${UserService.BASE_URL}/api/leave/create`, leaveData, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

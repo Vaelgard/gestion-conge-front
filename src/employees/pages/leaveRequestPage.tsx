@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import UserService from "@/services/userService"
 import { LeaveRequest } from "@/models/LeaveRequest"
+import { LeaveCreate } from "@/models/LeaveCreate"
 
 const formSchema = z
   .object({
@@ -56,8 +57,7 @@ export default function LeaveRequestPage() {
     try {
       const user = await UserService.getUser();
       const userId = user?.ourUsers?.id;
-      const leaveData: LeaveRequest = {
-        id: 0,
+      const leaveData: LeaveCreate = {
         name: user?.ourUsers?.name,
         ...values,
         startDate: values.startDate,
