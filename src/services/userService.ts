@@ -132,7 +132,17 @@ class UserService {
       throw err;
     }
   }
-  
+  static async deleteEmployee(id: number) {
+    try {
+      const response = await axios.delete(`${UserService.BASE_URL}/admin/delete/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
   
 
 }

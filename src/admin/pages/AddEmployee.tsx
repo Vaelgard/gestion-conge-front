@@ -155,7 +155,8 @@ export default function FormulaireUtilisateur({ utilisateur }: { utilisateur?: F
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="ADMIN">Administrateur</SelectItem>
-                      <SelectItem value="USER">Employé</SelectItem>
+                      <SelectItem value="EMPLOYE">Employé</SelectItem>
+                      <SelectItem value="STAGIAIRE">Stagiaire</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
