@@ -21,6 +21,12 @@ import { useNavigate } from "react-router-dom";
 
 export function DashboardNavbar() {
   const navigate=useNavigate();
+  const notification = localStorage.getItem("notification") || "0";
+  const username: string = localStorage.getItem("username") || "User";
+  function getFirstLetter(name: string) {
+    return name.split(" ").map((n) => n[0]).join("");
+  }
+  const userInitials = getFirstLetter(username).toUpperCase();
   return (
     <div className="flex h-full w-full items-center justify-between px-6">
       {/* Left Side: Sidebar & Search */}
@@ -36,7 +42,7 @@ export function DashboardNavbar() {
       <div className="flex items-center gap-4">
         <Button variant="outline" size="icon" className="relative h-9 w-9">
           <Bell className="h-5 w-5" />
-          <Badge className="absolute -right-1.5 -top-1.5 h-5 w-5 p-0 text-xs">3</Badge>
+          <Badge className="absolute -right-1.5 -top-1.5 h-5 w-5 p-0 text-xs">{notification}</Badge>
           <span className="sr-only">Notifications</span>
         </Button>
         {/* User Profile Dropdown */}
@@ -45,9 +51,9 @@ export function DashboardNavbar() {
             <Button variant="ghost" className="flex h-9 items-center gap-2 px-3">
               <Avatar className="h-8 w-8">
                 <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
-                <AvatarFallback>U</AvatarFallback>
+                <AvatarFallback>{userInitials}</AvatarFallback>
               </Avatar>
-              <span className="hidden text-sm font-medium md:inline-block">User</span>
+              <span className="hidden text-sm font-medium md:inline-block">{username}</span>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </Button>
           </DropdownMenuTrigger>

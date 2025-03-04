@@ -14,26 +14,26 @@ export default function LeavesRequestsPage() {
   const [leaveRequests, setLeaveRequests] = useState<LeaveRequest[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [notification, setNotification] = useState<number>(0);
 
   // Define fetchLeaveRequests outside of useEffect so it can be used elsewhere.
   const fetchLeaveRequests = async () => {
     setLoading(true);
     try {
-      const data = await UserService.getLeave();
+      const data: LeaveRequest[] = await UserService.getLeave();
       if (data) {
-        setLeaveRequests(
-          data
-            .filter((leave: LeaveRequest) => leave.statut === "Pending")
-            .map((leave: LeaveRequest) => ({
-              id: leave.id,
-              name: leave.name,
-              startDate: leave.startDate,
-              endDate: leave.endDate,
-              reason: leave.reason,
-              statut: leave.statut,
-              userId: leave.userId,
-            }))
+        // Calculate the notification count (number of pending requests)
+        const pendingCount = data.reduce((acc: number, leave: LeaveRequest) => {
+          return leave.statut === "Pending" ? acc + 1 : acc;
+        }, 0);
+        setNotification(pendingCount);
+        localStorage.setItem("notification", pendingCount.toString());
+
+        // Filter pending leave requests and update state
+        const pendingLeaves = data.filter(
+          (leave: LeaveRequest) => leave.statut === "Pending"
         );
+        setLeaveRequests(pendingLeaves);
       }
     } catch (error) {
       console.error("Failed to fetch leave requests", error);

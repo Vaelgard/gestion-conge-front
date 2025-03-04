@@ -12,6 +12,7 @@ import LeaveRequestPage from './employees/pages/leaveRequestPage';
 import LeavesStatusPage from './employees/pages/leaveStatusPage';
 import { useEffect } from 'react';
 import EmployeeDashboard from './employees/pages/employeeDashbord';
+import ProtectedLayout from './auth/ProtectedRoute';
 
 
 
@@ -26,8 +27,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <ProtectedLayout allowedRoles={["ADMIN"]}> 
+        <Dashboard />
+      </ProtectedLayout>
+    ),
     children: [
+      
       { path: "employees/add", element: <AddEmployee /> },
       { path: "employees/list", element: <EmployeesPage/>},
       { path: "leaves/requests", element: <LeavesRequestsPage/>},
@@ -36,6 +42,7 @@ const router = createBrowserRouter([
       { path: "/dashboard/profile", element: <Profile/> },
     ],
   },
+  {path:"/unauthorized",element:<h1>Unauthorized</h1>},
   {
     path:"/employees/dashboard",
     element: <EmployeeDashboard />,

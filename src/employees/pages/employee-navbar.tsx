@@ -21,6 +21,11 @@ import { useNavigate } from "react-router-dom";
 
 export function DashboardEmployeeNavbar() {
   const navigate=useNavigate();
+  const username: string = localStorage.getItem("username") || "User";
+  function getFirstLetter(name: string) {
+    return name.split(" ").map((n) => n[0]).join("");
+  }
+  const userInitials = getFirstLetter(username).toUpperCase();
   return (
     <div className="flex h-full w-full items-center justify-between px-6">
       {/* Left Side: Sidebar & Search */}
@@ -45,9 +50,9 @@ export function DashboardEmployeeNavbar() {
             <Button variant="ghost" className="flex h-9 items-center gap-2 px-3">
               <Avatar className="h-8 w-8">
                 <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
-                <AvatarFallback>U</AvatarFallback>
+                <AvatarFallback>{userInitials}</AvatarFallback>
               </Avatar>
-              <span className="hidden text-sm font-medium md:inline-block">User</span>
+              <span className="hidden text-sm font-medium md:inline-block">{username}</span>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </Button>
           </DropdownMenuTrigger>
@@ -55,7 +60,7 @@ export function DashboardEmployeeNavbar() {
             <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => navigate("/dashboard/profile")}>
+              <DropdownMenuItem onClick={() => navigate("/employees/dashboard/profile")}>
                 Profile
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
