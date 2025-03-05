@@ -9,6 +9,8 @@ import {
 import { LeaveRequest } from "@/models/LeaveRequest";
 import UserService from "@/services/userService";
 import { useEffect, useState } from "react";
+import Modal from "@/common/Modal"; // Import du modal
+import { Input } from "@/components/ui/input"; // Import d'un input si besoin
 
 export default function LeavesRequestsPage() {
   const [leaveRequests, setLeaveRequests] = useState<LeaveRequest[]>([]);
@@ -16,20 +18,25 @@ export default function LeavesRequestsPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [notification, setNotification] = useState<number>(0);
 
-  // Define fetchLeaveRequests outside of useEffect so it can be used elsewhere.
+  // Nouveaux états pour la modal de refus
+  const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
+  const [leaveRequestToReject, setLeaveRequestToReject] = useState<LeaveRequest | null>(null);
+  const [rejectionReason, setRejectionReason] = useState<string>("");
+
+  // Définir fetchLeaveRequests en dehors de useEffect pour le réutiliser
   const fetchLeaveRequests = async () => {
     setLoading(true);
     try {
       const data: LeaveRequest[] = await UserService.getLeave();
       if (data) {
-        // Calculate the notification count (number of pending requests)
+        // Calculer le nombre de notifications (nombre de demandes en attente)
         const pendingCount = data.reduce((acc: number, leave: LeaveRequest) => {
           return leave.statut === "Pending" ? acc + 1 : acc;
         }, 0);
         setNotification(pendingCount);
         localStorage.setItem("notification", pendingCount.toString());
 
-        // Filter pending leave requests and update state
+        // Filtrer les demandes en attente et mettre à jour le state
         const pendingLeaves = data.filter(
           (leave: LeaveRequest) => leave.statut === "Pending"
         );
@@ -58,16 +65,42 @@ export default function LeavesRequestsPage() {
     }
   };
 
-  const handleReject = async (id: number) => {
+  // Ouvrir le modal pour refuser en spécifiant le motif
+  const handleOpenRejectModal = (request: LeaveRequest) => {
+    setLeaveRequestToReject(request);
+    setRejectModalOpen(true);
+  };
+
+  // Soumettre le refus avec le motif
+  const onRejectSubmit = async () => {
+    if (!leaveRequestToReject) return;
+    if (!rejectionReason.trim()) {
+      alert("Veuillez saisir le motif du refus.");
+      return;
+    }
     try {
-      await UserService.rejectLeave(id);
+      // Créer un objet qui reprend toutes les propriétés de la demande,
+      // en mettant à jour la raison de refus et le statut.
+      const updatedLeaveRequest: LeaveRequest = {
+        ...leaveRequestToReject,
+        rejectionreason: rejectionReason,
+        statut: "Rejected", // Vous pouvez mettre à jour le statut ici
+      };
+  
+      // Appeler le service en passant l'objet complet
+      await UserService.rejectLeave(updatedLeaveRequest);
       setMessage("Leave request rejected successfully.");
       fetchLeaveRequests();
+      // Réinitialiser le modal
+      setRejectModalOpen(false);
+      setLeaveRequestToReject(null);
+      setRejectionReason("");
     } catch (error) {
       console.error("Failed to reject leave", error);
       setMessage("Failed to reject leave.");
     }
   };
+  
 
   return (
     <div className="p-4">
@@ -131,7 +164,7 @@ export default function LeavesRequestsPage() {
                     </button>
                     <button
                       className="bg-red-500 text-white px-2 py-1 rounded-lg"
-                      onClick={() => handleReject(request.id)}
+                      onClick={() => handleOpenRejectModal(request)}
                     >
                       Refuser
                     </button>
@@ -142,6 +175,38 @@ export default function LeavesRequestsPage() {
           )}
         </TableBody>
       </Table>
+
+      {/* Modal de refus pour spécifier le motif */}
+      {rejectModalOpen && leaveRequestToReject && (
+        <Modal isOpen={rejectModalOpen} onClose={() => setRejectModalOpen(false)}>
+          <h2 className="text-xl font-bold mb-4">Refuser la demande de congé</h2>
+          <div className="mb-4">
+            <label htmlFor="rejectionReason" className="block mb-2">
+              Motif du refus :
+            </label>
+            <Input
+              id="rejectionReason"
+              placeholder="Précisez le motif du refus"
+              value={rejectionReason}
+              onChange={(e) => setRejectionReason(e.target.value)}
+            />
+          </div>
+          <div className="flex justify-end space-x-4">
+            <button
+              className="bg-red-500 text-white px-2 py-1 rounded-lg"
+              onClick={onRejectSubmit}
+            >
+              Confirmer le refus
+            </button>
+            <button
+              className="bg-gray-500 text-white px-2 py-1 rounded-lg"
+              onClick={() => setRejectModalOpen(false)}
+            >
+              Annuler
+            </button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

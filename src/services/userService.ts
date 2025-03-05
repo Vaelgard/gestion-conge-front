@@ -1,4 +1,5 @@
 import { LeaveCreate } from "@/models/LeaveCreate";
+import { LeaveRequest } from "@/models/LeaveRequest";
 import axios from "axios";
 
 interface FormDataType {
@@ -72,18 +73,22 @@ class UserService {
     }
   }
   
-  static async rejectLeave(id: number) {
+  static async rejectLeave(leaveReqDto: LeaveRequest) {
     try {
-      const leaveReqDto = { id };  // Again, add other fields if necessary
-      const response = await axios.post(`${UserService.BASE_URL}/api/leave/rejected`, leaveReqDto, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
+      const response = await axios.post(
+        `${UserService.BASE_URL}/api/leave/rejected`,
+        leaveReqDto,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       return response.data;
     } catch (err) {
       console.log(err);
       throw err;
     }
   }
+  
   static async getUser() {
     try {
       const email = localStorage.getItem('email');

@@ -18,6 +18,7 @@ export default function LeavesRejectPage() {
               startDate: leave.startDate,
               endDate: leave.endDate,
               reason: leave.reason,
+              rejectionreason: leave.rejectionreason,
               status: leave.statut,
               userId: leave.userId,
             }))
@@ -44,7 +45,8 @@ export default function LeavesRejectPage() {
                 <p>
                   {new Date(req.startDate).toLocaleDateString()} - {new Date(req.endDate).toLocaleDateString()}
                 </p>
-                <p>Raison: {req.reason}</p>
+                <p>Raison de congé: {req.reason}</p>
+                <p>Motif de refus: {req.rejectionreason}</p>
               </div>
               <span className="text-red-600 font-bold">Refusé</span>    
             </div>

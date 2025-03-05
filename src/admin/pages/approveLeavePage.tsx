@@ -51,7 +51,7 @@ export default function LeavesApprovePage() {
                 <p>
                   {new Date(req.startDate).toLocaleDateString()} - {new Date(req.endDate).toLocaleDateString()}
                 </p>
-                <p>Raison: {req.reason}</p>
+                <p>Raison de congé: {req.reason}</p>
               </div>
                 <span className="text-green-600 font-bold">Approuvé</span>
             </div>

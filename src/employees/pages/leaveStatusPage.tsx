@@ -22,6 +22,7 @@ import {
         const user = await UserService.getUser();
         const userId = user?.ourUsers?.id;
         const data = await UserService.getLeaveByUser(userId);
+        console.log(data);
         if (data) {
           setLeaveRequests(
             data.map((leave: LeaveRequest) => ({
@@ -29,6 +30,7 @@ import {
                 startDate: leave.startDate,
                 endDate: leave.endDate,
                 reason: leave.reason,
+                rejectionreason: leave.rejectionreason,
                 statut: leave.statut,
               }))
           );
@@ -61,8 +63,9 @@ import {
             <TableRow>
               <TableHead>Date de début</TableHead>
               <TableHead>Date de fin</TableHead>
-              <TableHead>Raison</TableHead>
+              <TableHead>Raison de congé</TableHead>
               <TableHead>Statut</TableHead>
+              <TableHead>Motif</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -75,27 +78,32 @@ import {
             ) : (
               leaveRequests.map((request) => (
                 <TableRow key={request.id}>
-                  <TableCell>
-                    {new Date(request.startDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    {new Date(request.endDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>{request.reason}</TableCell>
-                  <TableCell>
-                    <button
-                      className={`rounded-full px-3 py-1 text-white font-semibold transition-colors duration-200 ${
-                        request.statut === "Approved"
-                          ? "bg-green-500 hover:bg-green-600"
-                          : request.statut === "Rejected"
-                          ? "bg-red-500 hover:bg-red-600"
-                          : "bg-black hover:bg-gray-800"
-                      }`}
-                    >
-                      {request.statut}
-                    </button>
-                  </TableCell>
-                </TableRow>
+                <TableCell>
+                  {new Date(request.startDate).toLocaleDateString()}
+                </TableCell>
+                <TableCell>
+                  {new Date(request.endDate).toLocaleDateString()}
+                </TableCell>
+                <TableCell>{request.reason}</TableCell>
+                <TableCell>
+                  <button
+                    className={`rounded-full px-3 py-1 text-white font-semibold transition-colors duration-200 ${
+                      request.statut === "Approved"
+                        ? "bg-green-500 hover:bg-green-600"
+                        : request.statut === "Rejected"
+                        ? "bg-red-500 hover:bg-red-600"
+                        : "bg-black hover:bg-gray-800"
+                    }`}
+                  >
+                    {request.statut}
+                  </button>
+                </TableCell>
+                {request.rejectionreason != null ? (
+                  <TableCell>{request.rejectionreason}</TableCell>
+                ) : (
+                  <TableCell>Votre demande a été approuvée !</TableCell>
+                )}
+              </TableRow>   
               ))
             )}
           </TableBody>
