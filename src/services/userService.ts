@@ -1,5 +1,6 @@
 import { LeaveCreate } from "@/models/LeaveCreate";
 import { LeaveRequest } from "@/models/LeaveRequest";
+import { User } from "@/models/User";
 import axios from "axios";
 
 interface FormDataType {
@@ -104,7 +105,7 @@ class UserService {
       throw err;
     }
   }
-  static async updateUser(userData: FormDataType) {
+  static async updateUser(userData: User) {
     try {
       const response = await axios.put(`${UserService.BASE_URL}/admin/update/${userData.id}`, userData, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

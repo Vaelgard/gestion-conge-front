@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 export function DashboardNavbar() {
   const navigate=useNavigate();
-  const notification = localStorage.getItem("notification") || "0";
+  const notification = 3
   const username: string = localStorage.getItem("username") || "User";
   function getFirstLetter(name: string) {
     return name.split(" ").map((n) => n[0]).join("");

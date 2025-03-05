@@ -16,7 +16,6 @@ export default function LeavesRequestsPage() {
   const [leaveRequests, setLeaveRequests] = useState<LeaveRequest[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [notification, setNotification] = useState<number>(0);
 
   // Nouveaux états pour la modal de refus
   const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
@@ -29,14 +28,6 @@ export default function LeavesRequestsPage() {
     try {
       const data: LeaveRequest[] = await UserService.getLeave();
       if (data) {
-        // Calculer le nombre de notifications (nombre de demandes en attente)
-        const pendingCount = data.reduce((acc: number, leave: LeaveRequest) => {
-          return leave.statut === "Pending" ? acc + 1 : acc;
-        }, 0);
-        setNotification(pendingCount);
-        localStorage.setItem("notification", pendingCount.toString());
-
-        // Filtrer les demandes en attente et mettre à jour le state
         const pendingLeaves = data.filter(
           (leave: LeaveRequest) => leave.statut === "Pending"
         );

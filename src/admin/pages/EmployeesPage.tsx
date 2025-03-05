@@ -8,13 +8,13 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from "@/components/ui/table"; // Your UI table components
-import { User } from "@/models/User"; // Your User model
-import UserService from "@/services/userService"; // Your API service
+} from "@/components/ui/table"; 
+import { User } from "@/models/User"; 
+import UserService from "@/services/userService"; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Modal from "@/common/Modal"; // The modal component we just created
-import { FormField } from "@/components/ui/form"; // Your form field component
+import Modal from "@/common/Modal"; 
+import { FormField } from "@/components/ui/form"; 
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -45,7 +45,6 @@ export default function EmployeesPage() {
   });
   const [modalOpen, setModalOpen] = useState(false);
   const [employeeToEdit, setEmployeeToEdit] = useState<User | null>(null);
-  
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -137,7 +136,7 @@ export default function EmployeesPage() {
     }
 
     try {
-      const result = await UserService.updateUser(data);
+      const result = await UserService.updateUser(data as User);
       console.log("User updated successfully", result);
       setEmployees((prev) =>
         prev.map((emp) => (emp.id === data.id ? { ...emp, ...data } : emp))
