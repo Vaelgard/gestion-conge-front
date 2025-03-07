@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
 
-// Define the form schema with validation
 const formSchema = z.object({
   id: z.number().optional(),
   name: z.string().min(2, { message: "Le nom doit contenir au moins 2 caractères." }),
@@ -32,18 +31,18 @@ const defaultValues: Partial<FormValues> = {
 
 export default function FormulaireUtilisateur({ utilisateur }: { utilisateur?: FormValues }) {
   const navigate=useNavigate();
-  // Initialize the form with react-hook-form and zod validation
+  // Initialize the form 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: utilisateur || defaultValues,
   });
 
-  // Handle form submission for employee registration
+  // Handle form submission 
   async function onSubmit(data: FormValues) {
     console.log("Form submitted:", data);
 
     try {
-      // Send the data to your backend "add employee" registration endpoint
+      // Send the data to backend
       const response = await fetch("http://localhost:8081/auth/register", {
         method: "POST",
         headers: {

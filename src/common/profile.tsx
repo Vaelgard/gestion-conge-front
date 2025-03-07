@@ -48,7 +48,6 @@ export default function Profile({ utilisateur }: { utilisateur?: FormValues }) {
   const [message, setMessage] = useState<string | null>(null);
 
   // Initialize the form with either the passed user or blank values.
-  // We'll update the form with fetched data if no "utilisateur" prop is provided.
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: utilisateur || {
@@ -61,7 +60,7 @@ export default function Profile({ utilisateur }: { utilisateur?: FormValues }) {
     },
   });
 
-  // Fetch default values if no "utilisateur" prop was provided
+  // Fetch default values if no user prop was provided
   useEffect(() => {
     if (!utilisateur) {
       (async () => {

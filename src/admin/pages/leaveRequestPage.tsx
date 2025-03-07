@@ -17,12 +17,11 @@ export default function LeavesRequestsPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  // Nouveaux états pour la modal de refus
+  //New state for the rejection modal
   const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
   const [leaveRequestToReject, setLeaveRequestToReject] = useState<LeaveRequest | null>(null);
   const [rejectionReason, setRejectionReason] = useState<string>("");
 
-  // Définir fetchLeaveRequests en dehors de useEffect pour le réutiliser
   const fetchLeaveRequests = async () => {
     setLoading(true);
     try {
@@ -56,13 +55,13 @@ export default function LeavesRequestsPage() {
     }
   };
 
-  // Ouvrir le modal pour refuser en spécifiant le motif
+  // Open rejection Model
   const handleOpenRejectModal = (request: LeaveRequest) => {
     setLeaveRequestToReject(request);
     setRejectModalOpen(true);
   };
 
-  // Soumettre le refus avec le motif
+  // Submit rejection with reason
   const onRejectSubmit = async () => {
     if (!leaveRequestToReject) return;
     if (!rejectionReason.trim()) {
@@ -70,19 +69,15 @@ export default function LeavesRequestsPage() {
       return;
     }
     try {
-      // Créer un objet qui reprend toutes les propriétés de la demande,
-      // en mettant à jour la raison de refus et le statut.
       const updatedLeaveRequest: LeaveRequest = {
         ...leaveRequestToReject,
         rejectionreason: rejectionReason,
-        statut: "Rejected", // Vous pouvez mettre à jour le statut ici
+        statut: "Rejected",
       };
-  
-      // Appeler le service en passant l'objet complet
       await UserService.rejectLeave(updatedLeaveRequest);
       setMessage("Leave request rejected successfully.");
       fetchLeaveRequests();
-      // Réinitialiser le modal
+      // Reset the model 
       setRejectModalOpen(false);
       setLeaveRequestToReject(null);
       setRejectionReason("");
