@@ -15,7 +15,6 @@ import {
     const [loading, setLoading] = useState<boolean>(false);
     const [message, setMessage] = useState<string | null>(null);
   
-    // Define fetchLeaveRequests outside of useEffect so it can be used elsewhere.
     const fetchLeaveRequests = async () => {
       setLoading(true);
       try {

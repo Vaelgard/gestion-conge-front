@@ -58,7 +58,7 @@ export default function EmployeesPage() {
     },
   });
 
-  // Fetch employees and filter based on search criteria.
+  // Fetch employees
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -117,7 +117,7 @@ export default function EmployeesPage() {
       name: employee.name,
       email: employee.email,
       phone: employee.phone,
-      password: "", // For security reasons, leave password empty
+      password: "", // For security reasons, password is not pre-populated
       role: employee.role,
     });
   };
