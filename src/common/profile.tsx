@@ -56,7 +56,6 @@ export default function Profile({ utilisateur }: { utilisateur?: FormValues }) {
       email: "",
       phone: "",
       password: "",
-      role: "",
     },
   });
 
@@ -184,29 +183,6 @@ export default function Profile({ utilisateur }: { utilisateur?: FormValues }) {
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Rôle</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Sélectionner un rôle" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="ADMIN">Administrateur</SelectItem>
-                      <SelectItem value="USER">Employé</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <div className="flex justify-end space-x-4 pt-4">
               <Button variant="outline" type="button">
                 Annuler

@@ -47,7 +47,7 @@ export default function LeavesRequestsPage() {
   const handleApprove = async (id: number) => {
     try {
       await UserService.approveLeave(id);
-      setMessage("Leave request approved successfully.");
+      setMessage("La demande de congé a été approuvée avec succès.");
       fetchLeaveRequests();
     } catch (error) {
       console.error("Failed to approve leave", error);
@@ -75,7 +75,7 @@ export default function LeavesRequestsPage() {
         statut: "Rejected",
       };
       await UserService.rejectLeave(updatedLeaveRequest);
-      setMessage("Leave request rejected successfully.");
+      setMessage("La demande de congé a été rejetée avec succès.");
       fetchLeaveRequests();
       // Reset the model 
       setRejectModalOpen(false);
